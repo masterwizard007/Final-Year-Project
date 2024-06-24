@@ -1,0 +1,19 @@
+observationInfo = rlNumericSpec([3 1]);
+numActions = 200;
+actionValues = linspace(-1, 1, numActions);
+actionInfo = rlFiniteSetSpec(actionValues);
+
+agentObj = rlDQNAgent(observationInfo, actionInfo, 'DiscountFactor', 0.99);
+
+env = rlSimulinkEnv('rl_learn3','rl_learn3/RL Agent');
+
+% Define training options
+
+trainingOptions = rlTrainingOptions('MaxEpisodes', 100,'MaxStepsPerEpisode', 1000,'Verbose',true,'Plots', 'training-progress','StopTrainingCriteria', 'AverageReward','StopTrainingValue', 200);
+
+% Train the agent
+trainingStats = train(agentObj, env, trainingOptions);
+
+trainOpts = rlTrainingOptions(MaxEpisodes=1000,MaxStepsPerEpisode=1000,StopTrainingCriteria="AverageReward",StopTrainingValue=480,Verbose=true,Plots="training-progress")
+
+trainOpts.MaxStepsPerEpisode = 10000;
